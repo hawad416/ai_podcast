@@ -1,6 +1,4 @@
 from langchain_openai import ChatOpenAI
-import nest_asyncio
-nest_asyncio.apply()
 from llama_index.core import Prompt, Document, VectorStoreIndex, SimpleDirectoryReader, StorageContext, load_index_from_storage
 import openai
 from llama_parse import LlamaParse
@@ -34,7 +32,7 @@ client = OpenAI(llm="gpt-4-0125-preview")
 
 # get the uploaded essay
 parser = LlamaParse(
-        api_key=os.get("LLAMA_PARSER_KEY"),
+        api_key=os.environ.get("LLAMA_PARSER_KEY"),
         result_type="markdown",
         verbose=True,
 )
