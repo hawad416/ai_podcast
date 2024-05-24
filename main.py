@@ -37,7 +37,7 @@ parser = LlamaParse(
         verbose=True,
 )
 file_extractor = {".pdf": parser}
-essay = SimpleDirectoryReader(input_files=["essay1.pdf"], file_extractor=file_extractor).load_data()
+essay = SimpleDirectoryReader(input_files=["sammvl.pdf"], file_extractor=file_extractor).load_data()
 
 print(essay)
 
@@ -52,7 +52,6 @@ st.subheader("podcast generator🎙️")
 
 #st.image("st.png", width=200)
 
-
     # User input: Name
 name = st.text_input("Name:")
 
@@ -61,6 +60,10 @@ podcast_title = st.text_input("Podcast Title Name:")
 
         # User input: Episode title
 episode_title = st.text_input("Episode Title Name:")
+
+# Article content
+article = st.text_area("Paste your writing here!")
+
 
         # User input: Call to action email or contact info
 call_to_action = st.text_input("Call to Action Email / Contact Info:")
@@ -76,7 +79,7 @@ def generate_podcast(name, podcast_title, episode_title, call_to_action):
     # Placeholder example for generating a podcast
     st.success("Podcast generated successfully!")
 
-    script = generate_script(complete_doc, name, podcast_title, episode_title, call_to_action)
+    script = generate_script(article, name, podcast_title, episode_title, call_to_action)
     cleaned_script = clean_script(script)
     create_audio_podcast(cleaned_script)
     # Define the input directory and output file
@@ -92,8 +95,7 @@ def generate_podcast(name, podcast_title, episode_title, call_to_action):
 def generate_script(essay, name, podcast_title, episode_title, call_to_action) -> str:
         """
         Generates Podcast Scipt.
-            """
-
+        """
         print(podcast_title)
         # Convert the list of dictionaries (JSON flight data) to a single string for input
         input_data = essay
@@ -186,7 +188,11 @@ def create_audio_podcast(cleaned_script):
     from more_itertools import sliced
     text_chunks = list(sliced(cleaned_script, 2000))
 
-    url = "https://api.deepgram.com/v1/speak?model=aura-luna-en"
+   # aura-arcas-en
+
+   # aura-luna-en
+
+    url = "https://api.deepgram.com/v1/speak?model=aura-arcas-en"
     headers = {
         "Authorization": "Token 0c6380718c35414124f53ac15e04b40939eae806",
         "Content-Type": "application/json"
@@ -244,6 +250,9 @@ def combine_mp3_files(input_directory, output_file):
     # Export the combined audio as a new MP3 file
     combined_audio.export(output_file, format='mp3')
     print(f"Combined MP3 file saved as {output_file}")
+
+
+
 
 
     # If the user has filled out all the inputs, show the information
